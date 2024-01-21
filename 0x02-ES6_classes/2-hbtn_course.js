@@ -35,7 +35,7 @@ export default class HolbertonCourse {
     if (!Array.isArray(stdts)) {
       throw new TypeError('Students must be an array of strings');
     }
-    if (stdts.every(students => typeof students !== 'string')) {
+    if (stdts.every((students) => typeof students !== 'string')) {
       throw new TypeError('Students must be an array of strings');
     }
     this._students = stdts;
