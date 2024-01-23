@@ -3,16 +3,14 @@ export default function cleanSet(set, startString) {
     return '';
   }
 
-  let result = [];
+  let result = '';
 
   set.forEach((val) => {
     if (typeof val === 'string' && val.startsWith(startString)) {
       const str = val.substring(startString.length);
-      result.push(str);
+      result += `${str}-`;
     }
   });
 
-  return result.join('-');
-
-/*  return result.endsWith('-') ? result.slice(0, -1) : result;*/
+  return result.endsWith('-') ? result.slice(0, -1) : result;
 }
