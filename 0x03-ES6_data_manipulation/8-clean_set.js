@@ -6,7 +6,7 @@ export default function cleanSet(set, startString) {
 			let str = val.substring(startString.length);
 			result += str + '-';
 		}
-		result = '';
+		return result;
 	});
 
 	if (result.endsWith('-')) {
