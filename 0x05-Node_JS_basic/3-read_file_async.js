@@ -1,11 +1,11 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 
-function countStudents(path) {
-  const content = {}; //holds student names for each study field
-  const fields = {}; //keeps count for each study field
+async function countStudents(path) {
+  const content = {};
+  const fields = {};
 
   try {
-    const data = fs.readFileSync(path, 'utf8');
+    const data = await fs.readFile(path, 'utf8');
     const rows = data.trim().split('\n');
 
     console.log(`Number of students: ${rows.slice(1).length}`);
@@ -17,14 +17,14 @@ function countStudents(path) {
         if (content[values[3]]) {
           content[values[3]].push(values[0]);
         } else {
-	  content[values[3]] = [values[0]];
-	}
+          content[values[3]] = [values[0]];
+        }
 
-	if (fields[values[3]]) {
-	  fields[values[3]] += 1;
-	} else {
-	  fields[values[3]] = 1;
-	}
+        if (fields[values[3]]) {
+          fields[values[3]] += 1;
+        } else {
+          fields[values[3]] = 1;
+        }
       }
     });
 
@@ -34,7 +34,7 @@ function countStudents(path) {
       }
     }
   } catch (err) {
-    throw new Error('Cannot load the database');
+    console.log('Cannot load the database');
   };
 }
 
