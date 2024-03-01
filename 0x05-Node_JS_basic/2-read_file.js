@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function countStudents(path) {  
+function countStudents(path) {
   const content = {};
   const fields = {};
 
@@ -13,7 +13,7 @@ function countStudents(path) {
     rows.slice(1).forEach((row) => {
       if (row.trim() !== '') {
         const values = row.split(',');
-      
+
         if (content[values[3]]) {
           content[values[3]].push(values[0]);
         } else {
