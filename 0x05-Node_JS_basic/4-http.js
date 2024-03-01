@@ -1,8 +1,8 @@
 const http = require('http');
 
-const app = http.createServer((req. res) => {
+const app = http.createServer((req, res) => {
   if (req.url === '/') {
-    res.write('Hello Holberton School!')
+    res.write('Hello Holberton School!');
     res.end();
   }
 });
