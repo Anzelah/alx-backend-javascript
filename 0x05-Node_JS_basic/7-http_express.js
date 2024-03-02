@@ -54,6 +54,7 @@ app.get('/students', (req, res) => {
   countStudents(process.argv[2]).then((results) => {
     res.send(`This is the list of our students\n${results}`);
   }).catch((error) => {
+    res.statusCode = 404;
     res.send('Cannot load the database');
   });
 });
