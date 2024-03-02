@@ -1,6 +1,47 @@
 const http = require('http');
-const { readFileAsync } = require('./3-read_file_async');
-const countStudents = require('./2-read_file');
+const fs = require('fs');
+
+function countStudents(path) {
+  const content = {};
+  const fields = {};
+
+  return new Promise((resolve, reject) => {
+    fs.readFile(path, 'utf8', (err, data) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    const rows = data.trim().split('\n');
+    const results = [`Number of students: ${rows.slice(1).length}`];
+
+    rows.slice(1).forEach((row) => {
+      if (row.trim() !== '') {
+        const values = row.split(',');
+
+        if (content[values[3]]) {
+          content[values[3]].push(values[0]);
+        } else {
+          content[values[3]] = [values[0]];
+        }
+
+        if (fields[values[3]]) {
+          fields[values[3]] += 1;
+        } else {
+          fields[values[3]] = 1;
+        }
+      }
+    });
+
+    for (const key of Object.keys(fields)) {
+      if (key !== 'fields') {
+        results.push(`Number of students in ${key}: ${fields[key]}. List: ${content[key].join(', ')}`);
+      }
+    }
+    resolve(results.join('\n'));
+    });
+  });
+}
 
 const app = http.createServer((req, res) => {
   if (req.url === '/') {
@@ -8,21 +49,17 @@ const app = http.createServer((req, res) => {
     res.end();
   }
   if (req.url === '/students') {
-    countStudents(process.argv[2]).then(() => {
-      readFileAsync('./database.csv','utf8', (err, data) => {
-        if (err) {
-	  console.error('Error reading file');
-          res.write('Internal Server Error');
-          res.end();
-        } else {
-	  console.log(data);
-          res.write(`This is the list of our students\n${data.split('\n')}`);
-          res.end();
-        }
+    res.write('This is the list of our students\n');
+    countStudents(process.argv[2]).then((results) => {
+      res.end(results);
+    }).catch((error) => {
+      res.statusCode = 404;
+      res.write('Cannot load the database');
+      res.end();
     });
-  });
-}
+  }
 });
+
 app.listen(1245);
 
 module.exports = app;
