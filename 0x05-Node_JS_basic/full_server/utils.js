@@ -40,6 +40,6 @@ function readDatabase(path) {
     resolve(results.join('\n'));
     });
   });
-}}
+}
 
 module.exports = readDatabase;

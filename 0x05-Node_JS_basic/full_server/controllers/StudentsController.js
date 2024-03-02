@@ -9,7 +9,7 @@ class StudentsController {
         console.error(err);
       } else {
         response.statusCode = 200;
-        response.send(`This is the list of our students\n${data});
+        response.send(`This is the list of our students\n${data}`);
       }
     });
   }
@@ -23,7 +23,7 @@ class StudentsController {
           response.status(500).send('Cannot load the database');
        	  console.error(err);
         } else {
-          response.status(200).send(`List: ${data});
+          response.status(200).send(`List: ${data}`);
 	}
       });
     }
